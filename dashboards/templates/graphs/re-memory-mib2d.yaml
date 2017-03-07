@@ -1,5 +1,4 @@
-
-template: graph-lines-01.j2
+template: graph-lines-02.j2
 datasource: influxdb
 title: "MIB2D SIZE"
 span: 6
@@ -7,10 +6,11 @@ span: 6
 targets:
   A:
     query: >
-      SELECT mean(value)
-      FROM /$host_regex.re.memory.mib2d-SIZE/
-      WHERE $timeFilter
-      GROUP BY time($GroupBy)
+      SELECT mean("size")
+      FROM "system_processes_extensive"
+      WHERE device=~ /^$host_regex$/ AND "daemon" = 'mib2d' AND $timeFilter
+      GROUP BY time($GroupBy),"device"
 
 templatings_used:
   - host_regex.yaml
+  - group_by.yaml

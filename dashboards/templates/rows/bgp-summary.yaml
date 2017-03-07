@@ -1,0 +1,8 @@
+title: BGP 
+height: 250px
+template: row_base.j2
+panels:
+  graphs:
+    - bgp-peer-down-count.yaml
+    - bgp-peer-count.yaml
+    - bgp-group-count.yaml

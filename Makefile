@@ -1,11 +1,9 @@
-
-
 # Determine the current git Branch and use that for docker
 BRANCH ?= $(shell git rev-parse --abbrev-ref HEAD)
 ifeq ($(BRANCH),master)
-  IMAGE_TAG = latest
+	IMAGE_TAG = latest
 else
-  IMAGE_TAG = $(BRANCH)
+	IMAGE_TAG = $(BRANCH)
 endif
 
 TEST_TAG=unittest
@@ -24,7 +22,7 @@ include $(VAR_FILE)
 # Define run options for Docker-compose
 RUN_OPTIONS = IMAGE_TAG=$(IMAGE_TAG)
 
-build: build-main build-jti build-syslog build-netconf build-lb build-oc build-internal
+build: build-main build-jti build-syslog build-netconf build-lb build-oc build-internal build-snmp
 
 build-main:
 	@echo "======================================================================"
@@ -68,6 +66,11 @@ build-lb:
 	@echo "======================================================================"
 	docker build -f $(LB_UDP_DIR)/Dockerfile -t $(LB_UDP_IMAGE_NAME):$(IMAGE_TAG) $(LB_UDP_DIR)
 
+build-snmp:
+	@echo "======================================================================"
+	@echo "Build Docker image - $(INPUT_SNMP_IMAGE_NAME):$(IMAGE_TAG)"
+	@echo "======================================================================"
+	docker build -f $(INPUT_SNMP_DIR)/Dockerfile -t $(INPUT_SNMP_IMAGE_NAME):$(IMAGE_TAG) $(INPUT_SNMP_DIR)
 
 
 test: test-build test-run
@@ -78,6 +81,7 @@ test-build:
 	docker build -f $(INPUT_SYSLOG_DIR)/Dockerfile -t $(INPUT_SYSLOG_IMAGE_NAME):$(TEST_TAG) $(INPUT_SYSLOG_DIR)
 	docker build -f $(INPUT_NETCONF_DIR)/Dockerfile -t $(INPUT_NETCONF_IMAGE_NAME):$(TEST_TAG) $(INPUT_NETCONF_DIR)
 	docker build -f $(INPUT_OC_DIR)/Dockerfile -t $(INPUT_OC_IMAGE_NAME):$(TEST_TAG) $(INPUT_OC_DIR)
+	docker build -f $(INPUT_SNMP_DIR)/Dockerfile -t $(INPUT_SNMP_IMAGE_NAME):$(TEST_TAG) $(INPUT_SNMP_DIR)
 	docker build -f $(INPUT_INTERNAL_DIR)/Dockerfile -t $(INPUT_INTERNAL_IMAGE_NAME):$(TEST_TAG) $(INPUT_INTERNAL_DIR)
 	docker build -f $(LB_UDP_DIR)/Dockerfile -t $(LB_UDP_IMAGE_NAME):$(TEST_TAG) $(LB_UDP_DIR)
 
@@ -109,6 +113,7 @@ update:
 	@echo "OpenNTI - Update the containers from Docker Hub"
 	docker pull $(MAIN_IMAGE_NAME):latest
 	docker pull $(INPUT_JTI_IMAGE_NAME):latest
+	docker pull $(INPUT_SNMP_IMAGE_NAME):latest
 	docker pull $(INPUT_SYSLOG_IMAGE_NAME):latest
 
 scale-input-syslog:
@@ -137,3 +142,5 @@ cron-delete:
 
 cron-debug:
 	docker exec -i -t $(MAIN_CONTAINER_NAME) /usr/bin/python /opt/open-nti/open-nti.py -s -c
+
+

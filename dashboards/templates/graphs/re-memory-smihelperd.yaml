@@ -1,16 +1,16 @@
-
 template: graph-lines-02.j2
 datasource: influxdb
-title: "SMI-HELPER SIZE"
+title: "SMI-HELPERD SIZE"
 span: 6
 
 targets:
   A:
     query: >
-      SELECT mean(value)
-      FROM /$host_regex.re.memory.smihelperd-SIZE/
-      WHERE $timeFilter
-      GROUP BY time($GroupBy)
+      SELECT mean("size")
+      FROM "system_processes_extensive"
+      WHERE device=~ /^$host_regex$/ AND "daemon" = 'smihelperd' AND $timeFilter
+      GROUP BY time($GroupBy),"device"
 
 templatings_used:
   - host_regex.yaml
+  - group_by.yaml

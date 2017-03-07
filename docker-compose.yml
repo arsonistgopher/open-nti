@@ -60,19 +60,14 @@ services:
 #      - opennti
 #      - consul
 
-#  input-snmp:
-#    build: ./open-nti-input-snmp
-#    # environment:
-#    #   - SERVICE_NAME=input-snmp
-#    #   - SERVICE_TAGS=udp
-#    volumes:
-#      - /etc/localtime:/etc/localtime:ro
-#      - ./open-nti-input-snmp/config/:/opt/telegraf/config
-#    expose:
-#      - "162/udp"
-#    links:
-#      - opennti
-#      - consul
+  input-snmp:
+    image: $INPUT_SNMP_IMAGE_NAME:$IMAGE_TAG
+    container_name: $INPUT_SNMP_CONTAINER_NAME
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+    links:
+      - opennti
+      - consul  
 
   input-netconf:
     image: $INPUT_NETCONF_IMAGE_NAME:$IMAGE_TAG
@@ -130,3 +125,4 @@ services:
       - "$LOCAL_PORT_INFLUXDB_API:8086"
     links:
       - consul
+

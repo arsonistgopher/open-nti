@@ -1,16 +1,15 @@
-
 template: graph-lines-02.j2
 datasource: influxdb
-title: "BGP down-peer-count"
+title: "BGP down-peer-count (delta)"
 span: 6
 
 targets:
   A:
     query: >
-      SELECT mean(value)
-      FROM /$host_regex.protocols.bgp.summary.down-peer-count/
-      WHERE $timeFilter
-      GROUP BY time($GroupBy)
+      SELECT mean("bgp-information/down-peer-count")
+      FROM "bgp_summary"
+      WHERE device=~ /^$host_regex$/ AND $timeFilter
+      GROUP BY time($GroupBy),"device"
 
 templatings_used:
   - host_regex.yaml

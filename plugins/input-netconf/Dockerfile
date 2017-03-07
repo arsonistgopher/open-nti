@@ -43,7 +43,9 @@ RUN     mkdir -p /var/lib/consul /usr/share/consul /etc/consul/conf.d &&\
 ADD     consul /etc/consul/conf.d
 
 ENV BUILD 2
-RUN git clone https://github.com/Juniper/py-netconf-collector.git
+
+COPY  py-netconf-collector  /source/py-netconf-collector 
+#RUN git clone https://github.com/Juniper/py-netconf-collector.git
 RUN pip install -r py-netconf-collector/requirements.txt
 
 COPY start-input-netconf.sh /source/start-input-netconf.sh

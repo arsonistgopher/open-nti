@@ -1,0 +1,6 @@
+pytest
+pytest-cov
+jinja2
+PyYAML
+requests
+junos-eznc

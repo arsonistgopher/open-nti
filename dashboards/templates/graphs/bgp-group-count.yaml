@@ -1,16 +1,15 @@
-
 template: graph-lines-02.j2
 datasource: influxdb
-title: "BGP group-count"
+title: "BGP group-count (delta)"
 span: 6
 
 targets:
   A:
     query: >
-      SELECT mean(value)
-      FROM /$host_regex.protocols.bgp.summary.group-count/
-      WHERE $timeFilter
-      GROUP BY time($GroupBy)
+      SELECT mean("bgp-information/group-count")
+      FROM "bgp_summary"
+      WHERE device=~ /^$host_regex$/ AND $timeFilter
+      GROUP BY time($GroupBy),"device"
 
 templatings_used:
   - host_regex.yaml

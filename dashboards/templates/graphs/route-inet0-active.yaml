@@ -1,4 +1,3 @@
-
 template: graph-lines-02.j2
 datasource: influxdb
 title: "Active Routes (inet.0)"
@@ -7,10 +6,10 @@ span: 6
 targets:
   A:
     query: >
-      SELECT mean(value)
-      FROM /$host_regex.route-table.summary.inet.0.actives/
-      WHERE $timeFilter
-      GROUP BY time($GroupBy)
+      SELECT mean("active-route-count")
+      FROM "route_summary"
+      WHERE device=~ /^$host_regex$/ AND $timeFilter
+      GROUP BY time($GroupBy),"device"
 
 templatings_used:
   - host_regex.yaml
