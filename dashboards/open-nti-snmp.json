@@ -11,7 +11,7 @@
   "rows": [
     {
       "collapse": false,
-      "height": "250px",
+      "height": 263,
       "panels": [
         {
           "aliasColors": {},
@@ -37,7 +37,7 @@
           "points": true,
           "renderer": "flot",
           "seriesOverrides": [],
-          "span": 3,
+          "span": 6,
           "stack": false,
           "steppedLine": false,
           "targets": [
@@ -95,6 +95,12 @@
                   },
                   {
                     "params": [
+                      "*8/60"
+                    ],
+                    "type": "math"
+                  },
+                  {
+                    "params": [
                       "in"
                     ],
                     "type": "alias"
@@ -119,165 +125,9 @@
                   },
                   {
                     "params": [
-                      "out"
+                      "*8/60"
                     ],
-                    "type": "alias"
-                  }
-                ]
-              ],
-              "tags": [
-                {
-                  "key": "hostname",
-                  "operator": "=~",
-                  "value": "/^$host_regex$/"
-                },
-                {
-                  "condition": "AND",
-                  "key": "ifName",
-                  "operator": "=~",
-                  "value": "/^$ifName$/"
-                }
-              ]
-            }
-          ],
-          "thresholds": [],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "Traffic In/Out (Octets)",
-          "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-          },
-          "type": "graph",
-          "xaxis": {
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-          },
-          "yaxes": [
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            },
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            }
-          ]
-        },
-        {
-          "aliasColors": {},
-          "bars": false,
-          "datasource": "snmp",
-          "fill": 0,
-          "id": 2,
-          "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": false,
-            "total": false,
-            "values": false
-          },
-          "lines": true,
-          "linewidth": 1,
-          "links": [],
-          "nullPointMode": "null",
-          "percentage": false,
-          "pointradius": 1,
-          "points": true,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "span": 3,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "dsType": "influxdb",
-              "groupBy": [
-                {
-                  "params": [
-                    "1m"
-                  ],
-                  "type": "time"
-                },
-                {
-                  "params": [
-                    "hostname"
-                  ],
-                  "type": "tag"
-                },
-                {
-                  "params": [
-                    "ifName"
-                  ],
-                  "type": "tag"
-                },
-                {
-                  "params": [
-                    "null"
-                  ],
-                  "type": "fill"
-                }
-              ],
-              "measurement": "interface_statistics",
-              "policy": "default",
-              "query": "SELECT derivative(mean(\"ifHCInBroadcastPkts\"), 1m), derivative(mean(\"ifHCOutBroadcastPkts\"), 1m) FROM \"interface_statistics\" WHERE \"hostname\" =~ /^$host_regex$/ AND \"ifName\" =~ /^$ifName$/ AND $timeFilter GROUP BY time(1m), \"hostname\", \"ifName\" fill(null)",
-              "rawQuery": false,
-              "refId": "A",
-              "resultFormat": "time_series",
-              "select": [
-                [
-                  {
-                    "params": [
-                      "ifHCInBroadcastPkts"
-                    ],
-                    "type": "field"
-                  },
-                  {
-                    "params": [],
-                    "type": "mean"
-                  },
-                  {
-                    "params": [
-                      "1m"
-                    ],
-                    "type": "derivative"
-                  },
-                  {
-                    "params": [
-                      "in"
-                    ],
-                    "type": "alias"
-                  }
-                ],
-                [
-                  {
-                    "params": [
-                      "ifHCOutBroadcastPkts"
-                    ],
-                    "type": "field"
-                  },
-                  {
-                    "params": [],
-                    "type": "mean"
-                  },
-                  {
-                    "params": [
-                      "1m"
-                    ],
-                    "type": "derivative"
+                    "type": "math"
                   },
                   {
                     "params": [
@@ -305,7 +155,7 @@
           "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Traffic In/Out (Broadcast packets)",
+          "title": "Traffic In/Out (bps)",
           "tooltip": {
             "shared": true,
             "sort": 0,
@@ -361,7 +211,7 @@
           "points": true,
           "renderer": "flot",
           "seriesOverrides": [],
-          "span": 3,
+          "span": 6,
           "stack": false,
           "steppedLine": false,
           "targets": [
@@ -419,6 +269,12 @@
                   },
                   {
                     "params": [
+                      "/60"
+                    ],
+                    "type": "math"
+                  },
+                  {
+                    "params": [
                       "in"
                     ],
                     "type": "alias"
@@ -440,6 +296,12 @@
                       "1m"
                     ],
                     "type": "derivative"
+                  },
+                  {
+                    "params": [
+                      "/60"
+                    ],
+                    "type": "math"
                   },
                   {
                     "params": [
@@ -467,7 +329,181 @@
           "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Traffic In/Out (Multicast)",
+          "title": "Traffic In/Out (Multicast pps)",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "datasource": "snmp",
+          "fill": 0,
+          "id": 2,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": false,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 1,
+          "points": true,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "span": 6,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "dsType": "influxdb",
+              "groupBy": [
+                {
+                  "params": [
+                    "1m"
+                  ],
+                  "type": "time"
+                },
+                {
+                  "params": [
+                    "hostname"
+                  ],
+                  "type": "tag"
+                },
+                {
+                  "params": [
+                    "ifName"
+                  ],
+                  "type": "tag"
+                },
+                {
+                  "params": [
+                    "null"
+                  ],
+                  "type": "fill"
+                }
+              ],
+              "measurement": "interface_statistics",
+              "policy": "default",
+              "query": "SELECT derivative(mean(\"ifHCInBroadcastPkts\"), 1m), derivative(mean(\"ifHCOutBroadcastPkts\"), 1m) FROM \"interface_statistics\" WHERE \"hostname\" =~ /^$host_regex$/ AND \"ifName\" =~ /^$ifName$/ AND $timeFilter GROUP BY time(1m), \"hostname\", \"ifName\" fill(null)",
+              "rawQuery": false,
+              "refId": "A",
+              "resultFormat": "time_series",
+              "select": [
+                [
+                  {
+                    "params": [
+                      "ifHCInBroadcastPkts"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [],
+                    "type": "mean"
+                  },
+                  {
+                    "params": [
+                      "1m"
+                    ],
+                    "type": "derivative"
+                  },
+                  {
+                    "params": [
+                      "/60"
+                    ],
+                    "type": "math"
+                  },
+                  {
+                    "params": [
+                      "in"
+                    ],
+                    "type": "alias"
+                  }
+                ],
+                [
+                  {
+                    "params": [
+                      "ifHCOutBroadcastPkts"
+                    ],
+                    "type": "field"
+                  },
+                  {
+                    "params": [],
+                    "type": "mean"
+                  },
+                  {
+                    "params": [
+                      "1m"
+                    ],
+                    "type": "derivative"
+                  },
+                  {
+                    "params": [
+                      "/60"
+                    ],
+                    "type": "math"
+                  },
+                  {
+                    "params": [
+                      "out"
+                    ],
+                    "type": "alias"
+                  }
+                ]
+              ],
+              "tags": [
+                {
+                  "key": "hostname",
+                  "operator": "=~",
+                  "value": "/^$host_regex$/"
+                },
+                {
+                  "condition": "AND",
+                  "key": "ifName",
+                  "operator": "=~",
+                  "value": "/^$ifName$/"
+                }
+              ]
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Traffic In/Out (Broadcast pps)",
           "tooltip": {
             "shared": true,
             "sort": 0,
@@ -523,7 +559,7 @@
           "points": true,
           "renderer": "flot",
           "seriesOverrides": [],
-          "span": 3,
+          "span": 6,
           "stack": false,
           "steppedLine": false,
           "targets": [
@@ -581,6 +617,12 @@
                   },
                   {
                     "params": [
+                      "/60"
+                    ],
+                    "type": "math"
+                  },
+                  {
+                    "params": [
                       "in"
                     ],
                     "type": "alias"
@@ -602,6 +644,12 @@
                       "1m"
                     ],
                     "type": "derivative"
+                  },
+                  {
+                    "params": [
+                      "/60"
+                    ],
+                    "type": "math"
                   },
                   {
                     "params": [
@@ -629,7 +677,7 @@
           "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Traffic In/Out (Unicast)",
+          "title": "Traffic In/Out (Unicast pps)",
           "tooltip": {
             "shared": true,
             "sort": 0,
@@ -684,6 +732,7 @@
         "allFormat": "regex wildcard",
         "allValue": null,
         "current": {
+          "tags": [],
           "text": "All",
           "value": [
             "$__all"
@@ -710,8 +759,11 @@
       {
         "allValue": null,
         "current": {
+          "tags": [],
           "text": "All",
-          "value": "$__all"
+          "value": [
+            "$__all"
+          ]
         },
         "datasource": "snmp",
         "hide": 0,
@@ -733,7 +785,7 @@
     ]
   },
   "time": {
-    "from": "now-1h",
+    "from": "now-15m",
     "to": "now"
   },
   "timepicker": {
