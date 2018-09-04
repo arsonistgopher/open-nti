@@ -20,6 +20,10 @@ export INPUT_OC_DIR=plugins/input-oc
 export INPUT_OC_IMAGE_NAME=juniper/open-nti-input-oc
 export INPUT_OC_CONTAINER_NAME=opennti_input_oc
 
+export INPUT_SNMP_DIR=plugins/input-snmp
+export INPUT_SNMP_IMAGE_NAME=juniper/open-nti-input-snmp
+export INPUT_SNMP_CONTAINER_NAME=opennti_input_snmp
+
 export INPUT_INTERNAL_DIR=plugins/input-internal
 export INPUT_INTERNAL_IMAGE_NAME=juniper/open-nti-input-internal
 export INPUT_INTERNAL_CONTAINER_NAME=opennti_input_internal
@@ -30,6 +34,10 @@ export LB_UDP_CONTAINER_NAME=opennti_lb_udp
 
 export MAIN_CONTAINER_NAME=opennti_con
 
+export KAPACITOR_CONTAINER_NAME=kapacitor_con
+export CHRONOGRAF_CONTAINER_NAME=chronograf_con
+
+
 export DOCKER_COMPOSE_FILE=docker-compose.yml
 
 ## Local ports that will be redirected to the Open NTI
@@ -38,16 +46,22 @@ export LOCAL_PORT_JTI=50000
 export LOCAL_PORT_NA=50010
 export LOCAL_PORT_ANALYTICSD=50020
 export LOCAL_PORT_STATSD=8125
+export LOCAL_PORT_SNMP=162
 export LOCAL_PORT_EVENT=6000
 export LOCAL_PORT_GRAFANA=3000
 export LOCAL_PORT_INFLUXDB=8083
 export LOCAL_PORT_INFLUXDB_API=8086
 export LOCAL_PORT_NGINX=80
 export LOCAL_PORT_SSH=22222
+export LOCAL_PORT_OC=50051
 
 ## Local directories that will be mapped into the container
 export LOCAL_DIR_DATA=data
 export LOCAL_DIR_LOG=logs
 export LOCAL_DIR_DB=db
+export LOCAL_DIR_DB_DATA=${LOCAL_DIR_DB}/data
+export LOCAL_DIR_DB_VAR=${LOCAL_DIR_DB}/influxdb
+export LOCAL_DIR_GF_PROVISIONING=docker/grafana/provisioning
 export LOCAL_DIR_TESTS=tests
 export LOCAL_DIR_DASHBOARD=dashboards
+
