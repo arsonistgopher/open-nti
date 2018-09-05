@@ -53,7 +53,7 @@
   flush_jitter = "0s"
 
   ## Run telegraf in debug mode
-  debug = false
+  debug = true
   ## Run telegraf in quiet mode
   quiet = false
   ## Override default hostname, if empty use os.Hostname()
@@ -103,8 +103,10 @@
 
 [[inputs.jti_openconfig_telemetry]]
 
-  servers = ["oc_agent:50051"]
-
+  servers = ["mx2_re:50051"]
+  username = "lab"
+  password = "lab123"
+  client_id = "telegraf"
   ## Frequency to get data in millisecond
   sample_frequency = "1000ms"
 
@@ -130,38 +132,11 @@
   ## more about them here:
   ## https://github.com/influxdata/telegraf/blob/master/docs/DATA_FORMATS_INPUT.md
   #data_format = "influx"
-
+mutual_auth = true
+client_crt = "/opt/telegraf/config/cert_files/mx2_re.crt"
+client_key = "/opt/telegraf/config/cert_files/mx2_re.key"
+ca_crt = "/opt/telegraf/config/cert_files/ca.crt"
+ssl_cert  = "/opt/telegraf/config/cert_files/mx2_re.pem"
 str_as_tags = false
-## Not working on Dec 1st 2016
-# "oc-bgp-neighbors /bgp/neighbors/neighbor/",
 
-# "/junos/system/linecard/interface/",15000
-# "/junos/system/cpu/memory/",
-#  "/junos/system/linecard/packet/usage/",
-#  "/junos/system/linecard/interface/",
-#  "/interfaces/interface/subinterfaces/",
-#  "/junos/system/linecard/optics/",
-#  "/junos/system/linecard/cpu/memory/",
-#  "/junos/system/linecard/services/inline-jflow/",
-#  "/components/",
-#  "/interfaces/interface[name='fxp0']/",
-#  "/interfaces/interface[name='em0']/",
-#  "/interfaces/interface[name='em1']/",
-#  "/interfaces/interface[name='em0']/",
-#  "/interfaces/interface[name='ixlv0']/",
-#  "/interfaces/interface[name='ixlv1']/",
-#  "/interfaces/interface[name='em0']/",
-#  "/interfaces/interface[name='ixgbe0']/",
-#  "/interfaces/interface[name='ixgbe1’]/",
-#  "/junos/rsvp-interface-information/",
-#  "/bgp/neighbors/neighbor/",
-#  "/junos/task-memory-information/",
-#  "/arp-information/",
-#  "/nd6-information/",
-#  "/ipv6-ra/",
-#  "/lldp/",
-#  "/lacp/",
-#  "/junos/system/linecard/fabric/"
-#  "oc-interfaces /interfaces/interface/",
-#  "oc-components /components/",
-#]
+
