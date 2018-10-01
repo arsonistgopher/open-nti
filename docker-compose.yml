@@ -10,6 +10,7 @@ input-jti:
    - "$LOCAL_PORT_ANALYTICSD:50020/udp"
   volumes:
    - /etc/localtime:/etc/localtime
+   - ./$INPUT_JTI_DIR/telegraf.tmpl:/source/telegraf.tmpl
   links:
     - opennti
 
@@ -94,6 +95,7 @@ opennti:
    - "$LOCAL_PORT_GRAFANA:3000"
    - "$LOCAL_PORT_INFLUXDB:8083"
    - "$LOCAL_PORT_INFLUXDB_API:8086"
+
 
 
 

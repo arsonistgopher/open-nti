@@ -1,30 +1,27 @@
-FROM psagrera/fluent-jti:1.1 
+FROM golang:1.10
+RUN mkdir /go/src/github.com
+RUN mkdir /go/src/github.com/influxdata
+WORKDIR /go/src/github.com/influxdata
 
-ENV FLUENTD_OPT=""
+#RUN go get -u -v google.golang.org/grpc
 
-ADD     fluentd-alpine.start.sh   fluentd-alpine.start.sh
-RUN     chmod 777 fluentd-alpine.start.sh
+RUN apt-get update &&\
+    apt-get install -y unzip wget curl
 
-COPY fluent.conf  /fluentd
-COPY    plugins   /fluentd/plugins
+RUN git clone https://github.com/psagrera/telegraf.git
 
-EXPOSE 24284
+WORKDIR /go/src/github.com/influxdata/telegraf
+RUN curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
+RUN make
 
-ENV OUTPUT_KAFKA=false \
-    OUTPUT_INFLUXDB=true \
-    OUTPUT_STDOUT=false \
-    PORT_JTI=50000 \
-    PORT_ANALYTICSD=50020 \
-    INFLUXDB_ADDR=localhost \
-    INFLUXDB_PORT=8086 \
-    INFLUXDB_DB=juniper \
-    INFLUXDB_USER=juniper \
-    INFLUXDB_PWD=juniper \
-    INFLUXDB_FLUSH_INTERVAL=2 \
-    KAFKA_ADDR=localhost \
-    KAFKA_PORT=9092 \
-    KAFKA_DATA_TYPE=json \
-    KAFKA_COMPRESSION_CODEC=none \
-    KAFKA_TOPIC=jnpr.jvision
+RUN mkdir /source
+RUN mkdir /source/logs
 
-CMD /fluentd-alpine.start.sh
+WORKDIR /source
+#COPY cert_files /source/cert_files
+#COPY telegraf.toml /source/telegraf.toml
+
+COPY start-input-jti.sh /source/start-input-jti.sh
+RUN chmod +x /source/start-input-jti.sh
+
+CMD ["/source/start-input-jti.sh"]
